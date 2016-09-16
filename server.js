@@ -4,6 +4,8 @@ var PORT = process.env.PORT || 3000
 
 var bodyParser = require("body-parser")
 
+var _ = require("underscore")
+
 var todos = []
 var todo_next_id = 1
 
@@ -18,16 +20,9 @@ app.get("/todos", function (req, res){
 })
 
 app.get("/todos/:id", function (req, res){
-	// res.send("Asking for todo with id of " + req.params.id)
-	var todo_id = req.params.id
+	var todo_id = parseInt(req.params.id)
 
-	var found
-	var max_todo = todos.length
-	for (i=0; i<max_todo; i++){
-		if (String(todos[i].id) === String(todo_id)){
-			found = todos[i]
-		}
-	}
+	var found = _.findWhere(todos, {id: todo_id})
 
 	if (found) {
 		res.send(found)
